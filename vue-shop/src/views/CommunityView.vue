@@ -463,4 +463,16 @@ async function deleteComment(commentId, boardId) {
   cursor: pointer;
   border: none;
 }
+
+@media (max-width: 768px) {
+  .community-page { padding: 32px 0 60px; }
+  .board-title { font-size: 28px; }
+  .post-row { flex-wrap: wrap; gap: 6px; }
+  .post-title { flex: 1 1 100%; order: -1; }
+  .inquiry-form { padding: 16px; }
+  .submit-btn { width: 100%; align-self: stretch; }
+  .comment-form { flex-wrap: wrap; }
+  .comment-form .input-custom { flex: 1 1 100%; }
+  .comment-form .submit-btn { width: 100%; }
+}
 </style>

@@ -803,5 +803,22 @@ async function placeOrder() {
     flex-wrap: wrap;
     gap: 4px;
   }
+
+  .order-summary {
+    position: static;
+    margin-top: 8px;
+  }
+
+  .step-block {
+    padding: 20px;
+  }
+
+  .step-btn-row {
+    flex-wrap: wrap;
+  }
+
+  .step-prev-btn {
+    flex: 1;
+  }
 }
 </style>

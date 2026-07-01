@@ -502,7 +502,11 @@ async function submitEdit() {
   display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 32px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.my-tabs::-webkit-scrollbar { display: none; }
 .my-tab {
   padding: 12px 24px;
   font-size: 12px;
@@ -514,6 +518,8 @@ async function submitEdit() {
   cursor: pointer;
   transition: all 0.2s;
   margin-bottom: -1px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .my-tab.active {
   color: #f2f0eb;
@@ -711,5 +717,16 @@ async function submitEdit() {
 .delete-btn-review:hover {
   background: #c0392b;
   color: #fff;
+}
+
+@media (max-width: 768px) {
+  .mypage { padding: 32px 0 60px; }
+  .board-title { font-size: 28px; }
+  .info-box { padding: 18px; }
+  .info-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .info-label { width: auto; }
+  .order-row { flex-direction: column; gap: 2px; }
+  .order-label { width: auto; }
+  .order-header { flex-wrap: wrap; gap: 8px; }
 }
 </style>

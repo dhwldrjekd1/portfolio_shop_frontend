@@ -513,5 +513,15 @@ onMounted(() => {
     width: 70px;
     height: 86px;
   }
+
+  .order-summary {
+    position: static;
+    margin-top: 8px;
+  }
+
+  .cart-item {
+    gap: 14px;
+    padding: 16px;
+  }
 }
 </style>

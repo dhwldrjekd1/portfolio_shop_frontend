@@ -683,9 +683,13 @@ async function submitReply(id) {
 /* 탭 */
 .board-tabs {
   display: flex;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   margin-bottom: 32px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.board-tabs::-webkit-scrollbar { display: none; }
 
 .tab-btn {
   padding: 12px 24px;
@@ -698,6 +702,8 @@ async function submitReply(id) {
   cursor: pointer;
   transition: all 0.2s;
   margin-bottom: -1px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tab-btn.active {
@@ -950,5 +956,15 @@ async function submitReply(id) {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .board-page { padding: 32px 0 60px; }
+  .board-title { font-size: 28px; }
+  .tab-btn { padding: 12px 16px; }
+  .post-row { flex-wrap: wrap; gap: 8px; }
+  .post-title { flex: 1 1 100%; order: -1; }
+  .inquiry-form { padding: 16px; }
+  .submit-btn { width: 100%; align-self: stretch; }
 }
 </style>

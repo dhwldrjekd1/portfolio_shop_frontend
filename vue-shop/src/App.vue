@@ -114,4 +114,9 @@ button {
 ::-webkit-scrollbar { width: 2px; }
 ::-webkit-scrollbar-track { background: #0d0d0d; }
 ::-webkit-scrollbar-thumb { background: #b8a898; }
+
+/* iOS Safari 자동 줌인 방지 (16px 미만 input 터치 시 페이지 확대 현상) */
+@media (max-width: 768px) {
+  input, select, textarea { font-size: 16px !important; }
+}
 </style>

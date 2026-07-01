@@ -242,4 +242,17 @@ function goToProduct() {
   background: #c0392b;
   color: #fff;
 }
+
+@media (hover: none) {
+  .card-wish {
+    opacity: 1;
+    background: rgba(13,13,13,0.5);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 </style>

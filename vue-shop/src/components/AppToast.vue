@@ -41,4 +41,13 @@ const store = useShopStore()
   opacity: 0;
   transform: translateY(10px);
 }
+
+@media (max-width: 768px) {
+  .app-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+}
 </style>

@@ -263,7 +263,11 @@ const collectionProducts = computed(() => store.products.slice(0, 4))
   display: flex;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   margin-bottom: 56px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.col-tabs::-webkit-scrollbar { display: none; }
 
 .col-tab {
   padding: 16px 24px;
@@ -277,6 +281,7 @@ const collectionProducts = computed(() => store.products.slice(0, 4))
   transition: all 0.2s;
   margin-bottom: -1px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .col-tab.active { color: #f2f0eb; border-bottom-color: #f2f0eb; }
@@ -392,5 +397,11 @@ const collectionProducts = computed(() => store.products.slice(0, 4))
 @media (max-width: 768px) {
   .collection-hero { height: 55vh; }
   .story-block, .story-block.reverse { grid-template-columns: 1fr; direction: ltr; }
+  .story-section { gap: 56px; margin-bottom: 56px; }
+  .story-block { gap: 24px; }
+  .col-tabs { margin-bottom: 32px; }
+  .col-tab { padding: 14px 18px; }
+  .hero-text { bottom: 32px; padding: 0 16px; }
+  .prod-header { flex-direction: column; align-items: flex-start; gap: 8px; }
 }
 </style>

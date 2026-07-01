@@ -66,7 +66,7 @@
       </div>
 
       <!-- ===== 회원 목록 ===== -->
-      <div v-if="currentTab === 'members'">
+      <div v-if="currentTab === 'members'" class="tab-members">
         <input
           v-model="memberSearch"
           type="text"
@@ -135,7 +135,7 @@
         </table>
       </div>
       <!-- ===== 리뷰 관리 ===== -->
-      <div v-if="currentTab === 'reviews'">
+      <div v-if="currentTab === 'reviews'" class="tab-reviews">
         <input
           v-model="reviewSearch"
           type="text"
@@ -223,8 +223,8 @@
       </div>
 
       <!-- ===== 주문 관리 ===== -->
-      <div v-if="currentTab === 'orders'">
-        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px">
+      <div v-if="currentTab === 'orders'" class="tab-orders">
+        <div class="date-filter-row" style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px">
           <input
             v-model="orderStartDate"
             type="date"
@@ -344,7 +344,7 @@
       </div>
 
       <!-- ===== 재고 관리 ===== -->
-      <div v-if="currentTab === 'stock'">
+      <div v-if="currentTab === 'stock'" class="tab-stock">
         <input
           v-model="stockSearch"
           type="text"
@@ -386,8 +386,8 @@
       </div>
 
       <!-- ===== 판매 관리 ===== -->
-      <div v-if="currentTab === 'sales'">
-        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px">
+      <div v-if="currentTab === 'sales'" class="tab-sales">
+        <div class="date-filter-row" style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px">
           <input
             v-model="startDate"
             type="date"
@@ -422,7 +422,7 @@
             placeholder="상품명 검색"
           />
         </div>
-        <div style="display: flex; gap: 16px; margin-bottom: 32px">
+        <div class="stat-row" style="display: flex; gap: 16px; margin-bottom: 32px">
           <div class="stat-card">
             <p class="stat-label">총 매출</p>
             <p class="stat-value">{{ salesStats.totalAmount.toLocaleString() }}원</p>
@@ -474,7 +474,7 @@
       </div>
 
       <!-- ===== 상품 관리 ===== -->
-      <div v-if="currentTab === 'items'">
+      <div v-if="currentTab === 'items'" class="tab-items">
         <!-- 상품 등록 버튼 -->
         <div style="display: flex; justify-content: flex-end; margin-bottom: 16px">
           <button
@@ -1376,5 +1376,41 @@ async function saveItem(item) {
 .page-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .admin-page { padding: 24px 0 48px; }
+  .board-title { font-size: 26px; }
+  .board-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .board-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn { white-space: nowrap; flex-shrink: 0; padding: 10px 14px; font-size: 11px; }
+  .stat-row { flex-wrap: wrap; }
+  .stat-card { flex: 1 1 calc(50% - 8px); padding: 14px 16px; }
+  .stat-value { font-size: 22px; }
+  .date-filter-row { flex-wrap: wrap; gap: 8px !important; }
+  .date-filter-row input[type="date"] { width: calc(50% - 14px) !important; }
+  .member-table { font-size: 12px; width: 100%; }
+  .member-table th { padding: 8px 10px; font-size: 10px; }
+  .member-table td { padding: 8px 10px; }
+  /* 회원목록: 12열 → 6열 */
+  .tab-members .member-table th:nth-child(1), .tab-members .member-table td:nth-child(1),
+  .tab-members .member-table th:nth-child(5), .tab-members .member-table td:nth-child(5),
+  .tab-members .member-table th:nth-child(6), .tab-members .member-table td:nth-child(6),
+  .tab-members .member-table th:nth-child(7), .tab-members .member-table td:nth-child(7),
+  .tab-members .member-table th:nth-child(8), .tab-members .member-table td:nth-child(8),
+  .tab-members .member-table th:nth-child(9), .tab-members .member-table td:nth-child(9) { display: none; }
+  /* 주문관리: 9열 → 5열 */
+  .tab-orders .member-table th:nth-child(2), .tab-orders .member-table td:nth-child(2),
+  .tab-orders .member-table th:nth-child(4), .tab-orders .member-table td:nth-child(4),
+  .tab-orders .member-table th:nth-child(5), .tab-orders .member-table td:nth-child(5),
+  .tab-orders .member-table th:nth-child(8), .tab-orders .member-table td:nth-child(8) { display: none; }
+  /* 리뷰관리: 8열 → 5열 */
+  .tab-reviews .member-table th:nth-child(1), .tab-reviews .member-table td:nth-child(1),
+  .tab-reviews .member-table th:nth-child(2), .tab-reviews .member-table td:nth-child(2),
+  .tab-reviews .member-table th:nth-child(7), .tab-reviews .member-table td:nth-child(7) { display: none; }
+  /* 상품관리: 8열 → 5열 */
+  .tab-items .member-table th:nth-child(1), .tab-items .member-table td:nth-child(1),
+  .tab-items .member-table th:nth-child(5), .tab-items .member-table td:nth-child(5),
+  .tab-items .member-table th:nth-child(7), .tab-items .member-table td:nth-child(7) { display: none; }
 }
 </style>

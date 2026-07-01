@@ -1,5 +1,8 @@
 <template>
   <header class="app-header">
+    <div class="demo-banner">
+      <span>관리자 계정 &nbsp;|&nbsp; <b>admin</b> &nbsp;/&nbsp; <b>1234</b></span>
+    </div>
     <div class="header-inner">
       <!-- 왼쪽: 카테고리 메뉴 -->
       <nav class="header-nav">
@@ -32,6 +35,11 @@
         >
       </nav>
 
+      <!-- 모바일: 햄버거 버튼 -->
+      <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="메뉴 열기">
+        <i class="bi" :class="mobileMenuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+      </button>
+
       <!-- 가운데: 브랜드 로고 -->
       <RouterLink to="/" class="header-logo"> GENTLE MONSTER </RouterLink>
 
@@ -57,7 +65,7 @@
         <div class="auth-wrap">
           <div v-if="store.isLoggedIn" class="user-menu">
             <RouterLink v-if="store.isAdmin" to="/admin" class="admin-link"
-              >회원목록</RouterLink
+              >관리자 페이지</RouterLink
             >
             <span class="user-name">{{ store.user.name }}님</span>
             <RouterLink
@@ -78,6 +86,21 @@
         </div>
       </div>
     </div>
+
+    <!-- 모바일: 슬라이드 네비 -->
+    <Transition name="mobile-nav-fade">
+      <div v-if="mobileMenuOpen" class="mobile-nav-backdrop" @click.self="mobileMenuOpen = false">
+        <nav class="mobile-nav">
+          <RouterLink to="/products" :class="{ 'nav-active': route.path === '/products' && !route.query.category }" @click="clearCategory(); mobileMenuOpen = false">전체</RouterLink>
+          <RouterLink to="/products?category=sunglasses" :class="{ 'nav-active': isSunglasses }" @click="mobileMenuOpen = false">선글라스</RouterLink>
+          <RouterLink to="/products?category=eyeglasses" :class="{ 'nav-active': isEyeglasses }" @click="mobileMenuOpen = false">안경</RouterLink>
+          <RouterLink to="/collections" :class="{ 'nav-active': route.path === '/collections' }" @click="mobileMenuOpen = false">컬렉션</RouterLink>
+          <RouterLink to="/board" :class="{ 'nav-active': route.path === '/board' }" @click="mobileMenuOpen = false">고객지원</RouterLink>
+          <RouterLink to="/community" :class="{ 'nav-active': route.path === '/community' }" @click="mobileMenuOpen = false">커뮤니티</RouterLink>
+          <RouterLink v-if="store.isAdmin" to="/admin" :class="{ 'nav-active': route.path === '/admin' }" @click="mobileMenuOpen = false">관리자 페이지</RouterLink>
+        </nav>
+      </div>
+    </Transition>
   </header>
 
   <!-- ===== 로그인/회원가입 모달 ===== -->
@@ -312,12 +335,14 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useShopStore } from "@/store/shop";
 
 const store = useShopStore();
 const route = useRoute();
+const mobileMenuOpen = ref(false);
+watch(() => route.fullPath, () => { mobileMenuOpen.value = false; });
 
 // ===== 네비 활성화 (호버 버그 수정) =====
 // /products?category=xxx 형태라 path만으로는 구분 안 되므로 query까지 비교
@@ -508,6 +533,8 @@ async function handleRegister() {
     store.showToast("서버 오류가 발생했습니다.", "error");
   }
 }
+function clearCategory() {}
+
 // 비밀번호 찾기
 const showFindPw = ref(false);
 const findPwForm = ref({ loginId: "", email: "" });
@@ -537,6 +564,59 @@ async function handleFindPw() {
 </script>
 
 <style scoped>
+/* 데모 배너 */
+.demo-banner {
+  background: #111;
+  color: #f5f5f5;
+  text-align: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 7px 16px;
+}
+.demo-banner b { color: #fff; }
+
+/* 햄버거 버튼 */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #f2f0eb;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1;
+}
+
+/* 모바일 슬라이드 네비 */
+.mobile-nav-backdrop {
+  position: fixed;
+  inset: 0;
+  top: 60px;
+  background: rgba(0,0,0,0.6);
+  z-index: 99;
+}
+.mobile-nav {
+  background: #0d0d0d;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  padding: 8px 24px 16px;
+}
+.mobile-nav a {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: #888;
+  text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.mobile-nav a:last-child { border-bottom: none; }
+.mobile-nav a.nav-active { color: #f2f0eb; }
+.mobile-nav-fade-enter-active,
+.mobile-nav-fade-leave-active { transition: opacity 0.2s ease; }
+.mobile-nav-fade-enter-from,
+.mobile-nav-fade-leave-to { opacity: 0; }
+
 /* ===== 헤더 ===== */
 .app-header {
   position: sticky;
@@ -661,12 +741,13 @@ async function handleFindPw() {
 
 /* 모바일 */
 @media (max-width: 768px) {
-  .header-nav {
-    display: none;
-  }
-  .header-logo {
-    font-size: 18px;
-  }
+  .header-nav { display: none; }
+  .mobile-menu-btn { display: block; }
+  .header-logo { font-size: 18px; }
+  .header-inner { padding: 0 16px; }
+  .header-icons { gap: 14px; }
+  .user-name { display: none; }
+  .admin-link { display: none; }
 }
 
 /* ===== 모달 ===== */

@@ -466,5 +466,10 @@ function resetFilters() {
   .sort-select {
     max-width: 100%;
   }
+
+  .filter-sidebar {
+    position: static;
+    margin-bottom: 8px;
+  }
 }
 </style>
