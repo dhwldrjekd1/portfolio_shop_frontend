@@ -417,6 +417,14 @@ const features = [
 /* ===== 모바일 ===== */
 @media (max-width: 768px) {
   .hero-slide { height: 60vh; }
+  .hero-content {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 88%;
+    max-width: 100%;
+    text-align: center;
+  }
+  .hero-desc { max-width: 100%; }
   .category-list { gap: 20px; }
   .section-header {
     flex-direction: column;
