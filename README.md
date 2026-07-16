@@ -74,8 +74,9 @@ src/
 - 할인가 표시 (원가 취소선 + 할인가 + %OFF)
 - DB 기반 재고/할인율/가격/별점 실시간 반영
 
-### 장바구니 / 결제
-- 장바구니 담기 / 수량 변경 / 삭제
+### 장바구니 / 위시리스트 / 결제
+- 장바구니 담기 / 수량 변경 / 삭제 (DB 기반, 새로고침 후에도 유지)
+- 위시리스트 담기 / 제거 (DB 기반, 새로고침 후에도 유지)
 - 3단계 결제 프로세스 (배송정보 → 결제수단 → 확인)
 - 토스페이먼츠 결제 연동
 - 주문 취소 (주문접수/배송중 상태만 가능)
@@ -114,4 +115,4 @@ npm run build
 
 | 구분 | 링크 |
 |------|------|
-| Backend | [portfolio_shop](https://github.com/dhwldrjekd1/portfolio_shop) |
+| Backend | [portfolio_shop_spring_boot](https://github.com/dhwldrjekd1/portfolio_shop_spring_boot) |
