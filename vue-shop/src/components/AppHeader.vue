@@ -317,9 +317,8 @@
               autocomplete="off"
             />
           </div>
-          <div v-if="tempPw" class="temp-pw-box">
-            <p>임시 비밀번호</p>
-            <strong>{{ tempPw }}</strong>
+          <div v-if="findPwSent" class="temp-pw-box">
+            <p>입력하신 이메일로 임시 비밀번호를 발송했습니다.</p>
             <p style="font-size: 11px; color: #888; margin-top: 8px">
               로그인 후 마이페이지에서 비밀번호를 변경해주세요.
             </p>
@@ -536,7 +535,7 @@ async function handleRegister() {
 // 비밀번호 찾기
 const showFindPw = ref(false);
 const findPwForm = ref({ loginId: "", email: "" });
-const tempPw = ref("");
+const findPwSent = ref(false);
 
 async function handleFindPw() {
   if (!findPwForm.value.loginId || !findPwForm.value.email) {
@@ -551,7 +550,7 @@ async function handleFindPw() {
     });
     const data = await res.json();
     if (data.success) {
-      tempPw.value = data.tempPw;
+      findPwSent.value = true;
     } else {
       store.showToast(data.message || "일치하는 회원정보가 없습니다.", "error");
     }
