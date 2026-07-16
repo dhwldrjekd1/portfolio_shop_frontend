@@ -9,7 +9,6 @@
         <RouterLink
           to="/products"
           :class="{ 'nav-active': route.path === '/products' && !route.query.category }"
-          @click="clearCategory"
           >전체</RouterLink
         >
         <RouterLink
@@ -91,7 +90,7 @@
     <Transition name="mobile-nav-fade">
       <div v-if="mobileMenuOpen" class="mobile-nav-backdrop" @click.self="mobileMenuOpen = false">
         <nav class="mobile-nav">
-          <RouterLink to="/products" :class="{ 'nav-active': route.path === '/products' && !route.query.category }" @click="clearCategory(); mobileMenuOpen = false">전체</RouterLink>
+          <RouterLink to="/products" :class="{ 'nav-active': route.path === '/products' && !route.query.category }" @click="mobileMenuOpen = false">전체</RouterLink>
           <RouterLink to="/products?category=sunglasses" :class="{ 'nav-active': isSunglasses }" @click="mobileMenuOpen = false">선글라스</RouterLink>
           <RouterLink to="/products?category=eyeglasses" :class="{ 'nav-active': isEyeglasses }" @click="mobileMenuOpen = false">안경</RouterLink>
           <RouterLink to="/collections" :class="{ 'nav-active': route.path === '/collections' }" @click="mobileMenuOpen = false">컬렉션</RouterLink>
@@ -533,7 +532,6 @@ async function handleRegister() {
     store.showToast("서버 오류가 발생했습니다.", "error");
   }
 }
-function clearCategory() {}
 
 // 비밀번호 찾기
 const showFindPw = ref(false);

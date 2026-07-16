@@ -79,9 +79,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { useShopStore } from "@/store/shop";
-
-const store = useShopStore();
 
 // 랜덤 주문번호 생성
 const orderNum = ref("GM-" + Math.random().toString(36).substr(2, 9).toUpperCase());

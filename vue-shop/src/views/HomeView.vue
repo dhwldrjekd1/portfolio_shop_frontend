@@ -117,6 +117,21 @@
         </div>
       </div>
     </section>
+
+    <!-- ===== 서비스 안내 ===== -->
+    <section class="features-section">
+      <div class="container">
+        <div class="features-grid">
+          <div v-for="f in features" :key="f.title" class="feature-item">
+            <i :class="['bi', f.icon]"></i>
+            <div>
+              <p class="feature-title">{{ f.title }}</p>
+              <p class="feature-desc">{{ f.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -413,6 +428,43 @@ const features = [
   100% { transform: translateX(-33.33%); } /* n in 3 이므로 */
 }
 
+/* ===== 서비스 안내 ===== */
+.features-section {
+  padding: 48px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.feature-item i {
+  font-size: 22px;
+  color: #b8a898;
+  flex-shrink: 0;
+}
+
+.feature-title {
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: #f2f0eb;
+  margin: 0 0 2px;
+}
+
+.feature-desc {
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
 
 /* ===== 모바일 ===== */
 @media (max-width: 768px) {
@@ -431,5 +483,6 @@ const features = [
     align-items: flex-start;
     gap: 8px;
   }
+  .features-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
 </style>

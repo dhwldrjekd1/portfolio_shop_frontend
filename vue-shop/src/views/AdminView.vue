@@ -734,7 +734,6 @@ const salesStats = ref({ totalAmount: 0, totalOrders: 0 });
 const productSales = ref([]);
 const startDate = ref("");
 const endDate = ref("");
-const filteredSalesOrders = ref([]);
 
 // 주문관리 페이징 + 기간 필터
 const orderStartDate = ref("");
@@ -896,7 +895,6 @@ async function loadSales() {
     if (endDate.value)
       filtered = filtered.filter((o) => o.created?.slice(0, 10) <= endDate.value);
     filtered = filtered.filter((o) => o.status !== "취소");
-    filteredSalesOrders.value = filtered;
     salesStats.value = {
       totalAmount: filtered.reduce((sum, o) => sum + (o.amount || 0), 0),
       totalOrders: filtered.length,

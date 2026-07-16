@@ -9,7 +9,7 @@
       </div>
 
       <!-- ===== 비어있음 ===== -->
-      <div v-if="store.wishlist.length === 0" class="empty-state">
+      <div v-if="store.wishlistProducts.length === 0" class="empty-state">
         <i class="bi bi-heart"></i>
         <p>위시리스트가 비어있습니다.</p>
         <RouterLink to="/products" class="empty-btn">상품 둘러보기</RouterLink>
@@ -17,10 +17,10 @@
 
       <!-- ===== 위시리스트 목록 ===== -->
       <div v-else>
-        <p class="wishlist-count">총 {{ store.wishlist.length }}개의 상품</p>
+        <p class="wishlist-count">총 {{ store.wishlistProducts.length }}개의 상품</p>
 
         <div class="row g-3 g-lg-4">
-          <div v-for="item in store.wishlist" :key="item.id" class="col-6 col-md-4 col-lg-3">
+          <div v-for="item in store.wishlistProducts" :key="item.id" class="col-6 col-md-4 col-lg-3">
             <div class="wish-card">
 
               <!-- 이미지 -->

@@ -27,37 +27,18 @@ export const useShopStore = defineStore('shop', () => {
     localStorage.setItem('gm_user', JSON.stringify(userData))
     showToast(`${userData.name}님, 환영합니다.`)
     loadCart()
+    loadWishlist()
   }
 
-  // 로그아웃 - 장바구니 초기화 후 홈으로 이동
+  // 로그아웃 - 장바구니/위시리스트 초기화 후 홈으로 이동
   function logout() {
     user.value = null
     localStorage.removeItem('gm_user')
     cart.value = []
+    wishlist.value = []
     showToast('로그아웃 되었습니다.')
-    window.location.href = '/web03/'
+    window.location.href = import.meta.env.BASE_URL
   }
-
-  // 회원가입 (로컬스토리지 기반)
-  function register(userData) {
-    const users = JSON.parse(localStorage.getItem('gm_users') || '[]')
-    if (users.find(u => u.email === userData.email)) {
-      return { success: false, message: '이미 사용중인 이메일입니다.' }
-    }
-    const newUser = {
-      ...userData,
-      id: Date.now(),
-      role: 'user',
-      level: 1,
-      createdAt: new Date().toISOString().slice(0, 10)
-    }
-    users.push(newUser)
-    localStorage.setItem('gm_users', JSON.stringify(users))
-    return { success: true }
-  }
-
-  // ===== API Base URL =====
-  const API_URL = import.meta.env.VITE_API_URL
 
  // ===== 데이터 fetch =====
 async function fetchData() {
@@ -161,19 +142,53 @@ const jsonProducts = data.products.map(product => {
   // 위시리스트 수량
   const wishlistCount = computed(() => wishlist.value.length)
 
-  // ===== 위시리스트 =====
+  // 위시리스트 상품 (전체 상품 정보와 결합)
+  const wishlistProducts = computed(() =>
+    wishlist.value
+      .map(w => products.value.find(p => p.id === w.itemId))
+      .filter(Boolean)
+  )
+
+  // ===== 위시리스트 (DB 연동) =====
   function isInWishlist(productId) {
-    return wishlist.value.some(item => item.id === productId)
+    return wishlist.value.some(item => item.itemId === productId)
   }
 
-  function toggleWishlist(product) {
-    const index = wishlist.value.findIndex(item => item.id === product.id)
-    if (index > -1) {
-      wishlist.value.splice(index, 1)
-      showToast('위시리스트에서 제거했습니다.')
-    } else {
-      wishlist.value.push(product)
-      showToast('위시리스트에 추가했습니다.')
+  // 위시리스트 목록 불러오기 (DB에서)
+  async function loadWishlist() {
+    if (!user.value?.loginId) return
+    try {
+      const res  = await fetch(`/api/wishlist/${user.value.loginId}`)
+      const data = await res.json()
+      wishlist.value = data.map(item => ({ id: item.id, itemId: item.itemId }))
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  // 위시리스트 추가/제거 (비로그인 시 로그인 모달 표시)
+  async function toggleWishlist(product) {
+    if (!user.value?.loginId) {
+      showLoginModal.value = true
+      return
+    }
+    const inWishlist = isInWishlist(product.id)
+    try {
+      if (inWishlist) {
+        await fetch(`/api/wishlist/${user.value.loginId}/${product.id}`, { method: 'DELETE' })
+        wishlist.value = wishlist.value.filter(item => item.itemId !== product.id)
+        showToast('위시리스트에서 제거했습니다.')
+      } else {
+        await fetch('/api/wishlist', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ loginId: user.value.loginId, itemId: product.id })
+        })
+        wishlist.value.push({ itemId: product.id })
+        showToast('위시리스트에 추가했습니다.')
+      }
+    } catch (e) {
+      showToast('오류가 발생했습니다.', 'error')
     }
   }
 
@@ -272,19 +287,20 @@ const jsonProducts = data.products.map(product => {
     return products.value.find(p => p.id === Number(id))
   }
 
-  // 새로고침 시 로그인 상태면 장바구니 불러오기
+  // 새로고침 시 로그인 상태면 장바구니/위시리스트 불러오기
   if (user.value?.loginId) {
     loadCart()
+    loadWishlist()
   }
 
   return {
     products, categories, banners, loading,
-    cart, wishlist, toast,
+    cart, wishlist, wishlistProducts, toast,
     showLoginModal,
     user, isLoggedIn, isAdmin,
     cartCount, cartTotal, wishlistCount,
-    login, logout, register,
-    isInWishlist, toggleWishlist,
+    login, logout,
+    isInWishlist, toggleWishlist, loadWishlist,
     loadCart, addToCart, updateCartQty, removeFromCart, clearCart,
     showToast,
     getProductById,
