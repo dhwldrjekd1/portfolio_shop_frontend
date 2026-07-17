@@ -209,7 +209,7 @@
                 v-model="registerForm.password"
                 type="password"
                 class="input-custom"
-                placeholder="8자 이상 입력"
+                placeholder="8자 이상, 영문 소문자+숫자+특수문자 포함"
                 autocomplete="new-password"
               />
             </div>
@@ -481,6 +481,12 @@ async function handleRegister() {
   }
   if (registerForm.value.password.length < 8) {
     store.showToast("비밀번호는 8자 이상 입력해주세요.", "error");
+    return;
+  }
+  if (!/[a-z]/.test(registerForm.value.password) ||
+      !/[0-9]/.test(registerForm.value.password) ||
+      !/[^A-Za-z0-9]/.test(registerForm.value.password)) {
+    store.showToast("비밀번호는 영문 소문자, 숫자, 특수문자를 모두 포함해야 합니다.", "error");
     return;
   }
   if (registerForm.value.password !== registerForm.value.passwordConfirm) {

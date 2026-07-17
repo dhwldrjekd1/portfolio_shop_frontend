@@ -120,7 +120,7 @@
                 v-model="editForm.loginPw"
                 type="password"
                 class="input-custom"
-                placeholder="변경할 비밀번호 입력"
+                placeholder="8자 이상, 영문 소문자+숫자+특수문자 포함"
               />
             </div>
             <div
@@ -458,6 +458,20 @@ function startEdit() {
 }
 
 async function submitEdit() {
+  if (editForm.value.loginPw) {
+    if (editForm.value.loginPw.length < 8) {
+      store.showToast("비밀번호는 8자 이상 입력해주세요.", "error");
+      return;
+    }
+    if (
+      !/[a-z]/.test(editForm.value.loginPw) ||
+      !/[0-9]/.test(editForm.value.loginPw) ||
+      !/[^A-Za-z0-9]/.test(editForm.value.loginPw)
+    ) {
+      store.showToast("비밀번호는 영문 소문자, 숫자, 특수문자를 모두 포함해야 합니다.", "error");
+      return;
+    }
+  }
   try {
     const res = await fetch(`/api/member/update/${store.user.loginId}`, {
       method: "PUT",
