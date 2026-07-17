@@ -30,8 +30,9 @@ export const useShopStore = defineStore('shop', () => {
     loadWishlist()
   }
 
-  // 로그아웃 - 장바구니/위시리스트 초기화 후 홈으로 이동
+  // 로그아웃 - 서버 세션 무효화 후 장바구니/위시리스트 초기화, 홈으로 이동
   function logout() {
+    fetch('/api/member/logout', { method: 'POST' }).catch(() => {})
     user.value = null
     localStorage.removeItem('gm_user')
     cart.value = []
