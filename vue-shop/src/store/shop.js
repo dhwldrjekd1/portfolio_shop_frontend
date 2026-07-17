@@ -132,11 +132,15 @@ const jsonProducts = data.products.map(product => {
     cart.value.reduce((sum, i) => sum + i.qty, 0)
   )
 
-  // 장바구니 총 금액 (DB 상품 가격 기준)
+  // 장바구니 총 금액 (DB 상품 가격 기준, 할인율 반영 - 100원 단위 반올림)
   const cartTotal = computed(() =>
     cart.value.reduce((sum, item) => {
       const product = products.value.find(p => p.id === item.itemId)
-      return sum + (product?.price || 0) * item.qty
+      if (!product) return sum
+      const unitPrice = product.discountRate
+        ? Math.round((product.price * (1 - product.discountRate / 100)) / 100) * 100
+        : product.price
+      return sum + unitPrice * item.qty
     }, 0)
   )
 
