@@ -395,10 +395,10 @@ const discountRate = computed(() => {
   return product.value.discountRate || 0;
 });
 
+// 이름과 달리 할인 적용가를 담는다 (템플릿에서 discountRate > 0일 때만 사용) - 장바구니/결제와 동일한 공용 로직 사용
 const originalPrice = computed(() => {
   if (!product.value || !product.value.discountRate) return 0;
-  const discounted = product.value.price * (1 - product.value.discountRate / 100);
-  return Math.round(discounted / 100) * 100;
+  return store.getDiscountedPrice(product.value);
 });
 
 const relatedProducts = computed(() => {

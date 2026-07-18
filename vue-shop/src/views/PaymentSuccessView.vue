@@ -59,6 +59,7 @@ onMounted(async () => {
           address: fullAddress,
           payment: "toss",
           amount: savedTotal,
+          tossOrderId: orderId,
           items: savedItems.map((i) => ({
             itemId: i.itemId,
             quantity: i.qty,

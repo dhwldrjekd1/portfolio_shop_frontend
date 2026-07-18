@@ -76,12 +76,8 @@ const badgeClass = computed(() => {
   return "badge-default";
 });
 
-// 할인가 계산 (백원 단위 반올림)
-const discountedPrice = computed(() => {
-  if (!props.product.discountRate) return props.product.price;
-  const discounted = props.product.price * (1 - props.product.discountRate / 100);
-  return Math.round(discounted / 100) * 100;
-});
+// 할인가 계산 (백원 단위 반올림) - 장바구니/결제 등과 동일한 공용 로직 사용
+const discountedPrice = computed(() => store.getDiscountedPrice(props.product));
 
 // 상품 상세 페이지로 이동
 function goToProduct() {

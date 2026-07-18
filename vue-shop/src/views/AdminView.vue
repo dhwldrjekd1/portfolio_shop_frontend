@@ -1197,6 +1197,7 @@ async function loadItems() {
 }
 
 async function saveItem(item) {
+  if (!confirm(`"${item.name}" 상품의 재고/할인율을 저장하시겠습니까?`)) return;
   try {
     await fetch(`/api/item/${item.id}/stock`, {
       method: "PUT",
