@@ -279,7 +279,7 @@ const cartItems = computed(() =>
     return {
       ...item,
       name: product?.name || "상품명 없음",
-      price: product?.price || 0,
+      price: store.getDiscountedPrice(product),
       image: product?.images?.[0] || "",
     };
   })
@@ -348,7 +348,7 @@ async function placeOrder() {
         itemId: item.itemId,
         name: product?.name || "상품명 없음",
         image: product?.images?.[0] || "",
-        price: product?.price || 0,
+        price: store.getDiscountedPrice(product),
         qty: item.qty,
         color: item.color || "",
         size: item.size || "",

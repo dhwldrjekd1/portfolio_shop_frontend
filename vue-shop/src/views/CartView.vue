@@ -145,7 +145,7 @@ const cartItems = computed(() => {
     return {
       ...item,
       name: product?.name || "상품명 없음",
-      price: product?.price || 0,
+      price: store.getDiscountedPrice(product),
       image: product?.images?.[0] || "",
       discountRate: product?.discountRate || 0,
     };

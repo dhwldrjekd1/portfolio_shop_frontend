@@ -132,15 +132,20 @@ const jsonProducts = data.products.map(product => {
     cart.value.reduce((sum, i) => sum + i.qty, 0)
   )
 
+  // 할인가 계산 (100원 단위 반올림) - 장바구니/결제/주문완료 등에서 공용으로 사용
+  function getDiscountedPrice(product) {
+    if (!product) return 0
+    return product.discountRate
+      ? Math.round((product.price * (1 - product.discountRate / 100)) / 100) * 100
+      : product.price
+  }
+
   // 장바구니 총 금액 (DB 상품 가격 기준, 할인율 반영 - 100원 단위 반올림)
   const cartTotal = computed(() =>
     cart.value.reduce((sum, item) => {
       const product = products.value.find(p => p.id === item.itemId)
       if (!product) return sum
-      const unitPrice = product.discountRate
-        ? Math.round((product.price * (1 - product.discountRate / 100)) / 100) * 100
-        : product.price
-      return sum + unitPrice * item.qty
+      return sum + getDiscountedPrice(product) * item.qty
     }, 0)
   )
 
@@ -303,7 +308,7 @@ const jsonProducts = data.products.map(product => {
     cart, wishlist, wishlistProducts, toast,
     showLoginModal,
     user, isLoggedIn, isAdmin,
-    cartCount, cartTotal, wishlistCount,
+    cartCount, cartTotal, wishlistCount, getDiscountedPrice,
     login, logout,
     isInWishlist, toggleWishlist, loadWishlist,
     loadCart, addToCart, updateCartQty, removeFromCart, clearCart,

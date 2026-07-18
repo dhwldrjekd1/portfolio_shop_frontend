@@ -72,6 +72,21 @@ onMounted(async () => {
       if (orderData.success) {
         await store.clearCart();
         router.push("/order-complete");
+      } else {
+        // 결제는 승인됐지만 주문 저장에 실패한 경우 (예: 재고 소진) - 카드 결제는 이미 완료된 상태이므로
+        // 장바구니를 지우지 않고 마이페이지로 보내 고객센터 문의를 안내한다.
+        // 저장 실패한 주문 데이터가 남아있으면 이후 재주문 시 주문완료 화면이 오작동할 수 있어 함께 정리한다.
+        sessionStorage.removeItem("last_order_items");
+        sessionStorage.removeItem("last_order_total");
+        sessionStorage.removeItem("last_order_address");
+        sessionStorage.removeItem("last_order_memo");
+        store.showToast(
+          `결제는 완료되었으나 주문 처리에 실패했습니다${
+            orderData.message ? ": " + orderData.message : ""
+          }. 고객센터로 문의해주세요.`,
+          "error"
+        );
+        router.push("/mypage");
       }
     } else {
       store.showToast("결제 승인 실패", "error");
