@@ -135,6 +135,7 @@ npm run build
 - **리뷰 등록 실패 시 안내 없음** (2026-07-20) — `ProductDetailView.vue`의 `submitReview()`가 `data.success === false` 응답을 아무 처리 없이 무시하던 문제. 백엔드에 구매확인/중복방지 서버측 검증을 추가하면서 이 실패 응답이 실제로 발생할 수 있게 되어, 실패 메시지를 토스트로 안내하도록 수정. (관련 백엔드 변경: 리뷰 등록 시 구매확인/중복방지 서버측 재검증 추가)
 - **위시리스트 별점이 항상 빈 별로 표시됨** (2026-07-20) — `WishlistView.vue`가 존재하지 않는 필드(`item.rating`)를 참조해 평점이 아무리 높아도 별이 하나도 안 채워지던 문제. `item.avgRating`으로 수정.
 - **결제 페이지에 열릴 수 없는 죽은 '카드' 결제 UI 잔존** (2026-07-20) — `CheckoutView.vue`에 카드번호/유효기간/CVC 입력 블록이 `form.payment === 'card'`일 때만 보이도록 되어 있었는데, 실제 결제수단 목록엔 `'card'` 옵션 자체가 없어 절대 도달할 수 없었고, 입력창들도 `v-model` 바인딩이 없어 도달해도 동작하지 않았음. 블록과 미사용 `form.cardNumber` 필드를 함께 제거.
+- **중복 로직 통합** (2026-07-20) — 배송비 계산(`CartView.vue`/`CheckoutView.vue`), 등급 색상 `gradeColor()`(`AdminView.vue`/`MyPageView.vue`), 비밀번호 정책 검증(`AppHeader.vue`/`MyPageView.vue`)이 각각 두 화면에 동일 로직으로 중복 구현되어 있던 것을, 어제 통일한 `getDiscountedPrice()`와 같은 방식으로 `store/shop.js`의 `shippingFree`/`cartTotalWithShipping`/`gradeColor()`/`validatePasswordPolicy()` 공용 함수로 통합. 동작 변화 없음. (평균 별점 계산은 겉보기엔 비슷해 보였지만, 상품목록 캐시값과 리뷰 등록 직후 즉시 갱신되는 값이라 용도가 달라 통합하지 않음.) 미사용 CSS(`ProductCard.vue` `.card-review`, `HomeView.vue` 프로모션 섹션 잔재)도 함께 정리.
 
 ---
 

@@ -152,13 +152,9 @@ const cartItems = computed(() => {
   });
 });
 
-// 5만원 이상 무료배송
-const shippingFree = computed(() => store.cartTotal >= 50000);
-
-// 배송비 포함 총액
-const totalWithShipping = computed(
-  () => store.cartTotal + (shippingFree.value ? 0 : 3000)
-);
+// 배송비 계산은 store.shippingFree/cartTotalWithShipping 공용 로직 사용 (Checkout과 동일 기준)
+const shippingFree = computed(() => store.shippingFree);
+const totalWithShipping = computed(() => store.cartTotalWithShipping);
 
 onMounted(() => {
   store.fetchData();

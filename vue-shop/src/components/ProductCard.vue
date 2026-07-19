@@ -227,10 +227,6 @@ function goToProduct() {
   color: #b8a898;
 }
 
-.card-review {
-  color: #666;
-}
-
 .card-discount {
   font-size: 10px;
   letter-spacing: 0.08em;

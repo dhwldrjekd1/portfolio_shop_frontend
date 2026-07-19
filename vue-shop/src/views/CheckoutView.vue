@@ -264,11 +264,9 @@ const cartItems = computed(() =>
   })
 );
 
-// ===== 배송비 계산 (5만원 이상 무료) =====
-const shippingFree = computed(() => store.cartTotal >= 50000);
-const totalWithShipping = computed(
-  () => store.cartTotal + (shippingFree.value ? 0 : 3000)
-);
+// ===== 배송비 계산은 store.shippingFree/cartTotalWithShipping 공용 로직 사용 (Cart와 동일 기준) =====
+const shippingFree = computed(() => store.shippingFree);
+const totalWithShipping = computed(() => store.cartTotalWithShipping);
 
 // ===== 배송 메모 직접 입력 여부 =====
 const showMemoInput = computed(() => form.value.memo === "direct");

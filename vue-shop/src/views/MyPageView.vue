@@ -73,7 +73,7 @@
             </div>
             <div class="info-row">
               <span class="info-label">등급</span>
-              <span class="info-value" :style="{ color: gradeColor(member.grade) }">
+              <span class="info-value" :style="{ color: store.gradeColor(member.grade) }">
                 {{ member.grade || "브론즈" }}
               </span>
             </div>
@@ -306,19 +306,6 @@ onMounted(() => {
   loadMember();
 });
 
-// 등급 색상
-function gradeColor(grade) {
-  switch (grade) {
-    case "실버":
-      return "#C0C0C0";
-    case "골드":
-      return "#FFD700";
-    case "플래티넘":
-      return "#b8a8e8";
-    default:
-      return "#cd7f32";
-  }
-}
 
 async function loadMember() {
   if (!store.user?.loginId) return;
@@ -459,16 +446,9 @@ function startEdit() {
 
 async function submitEdit() {
   if (editForm.value.loginPw) {
-    if (editForm.value.loginPw.length < 8) {
-      store.showToast("비밀번호는 8자 이상 입력해주세요.", "error");
-      return;
-    }
-    if (
-      !/[a-z]/.test(editForm.value.loginPw) ||
-      !/[0-9]/.test(editForm.value.loginPw) ||
-      !/[^A-Za-z0-9]/.test(editForm.value.loginPw)
-    ) {
-      store.showToast("비밀번호는 영문 소문자, 숫자, 특수문자를 모두 포함해야 합니다.", "error");
+    const pwError = store.validatePasswordPolicy(editForm.value.loginPw);
+    if (pwError) {
+      store.showToast(pwError, "error");
       return;
     }
   }

@@ -103,7 +103,7 @@
               <td>{{ member.created?.slice(0, 10) }}</td>
               <td>{{ member.role }}</td>
               <td>
-                <span :style="{ color: gradeColor(member.grade) }">{{
+                <span :style="{ color: store.gradeColor(member.grade) }">{{
                   member.grade || "브론즈"
                 }}</span>
               </td>
@@ -818,19 +818,6 @@ const filteredProductSales = computed(() => {
 });
 
 // 등급 색상
-function gradeColor(grade) {
-  switch (grade) {
-    case "실버":
-      return "#C0C0C0";
-    case "골드":
-      return "#FFD700";
-    case "플래티넘":
-      return "#b8a8e8";
-    default:
-      return "#cd7f32";
-  }
-}
-
 // 주문 삭제 (관리자)
 async function deleteOrder(id) {
   if (!confirm("주문을 삭제하시겠습니까?")) return;

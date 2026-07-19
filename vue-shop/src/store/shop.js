@@ -149,6 +149,30 @@ const jsonProducts = data.products.map(product => {
     }, 0)
   )
 
+  // 배송비 (5만원 이상 무료) - 장바구니/결제 화면 공용
+  const shippingFree = computed(() => cartTotal.value >= 50000)
+  const cartTotalWithShipping = computed(() => cartTotal.value + (shippingFree.value ? 0 : 3000))
+
+  // 등급별 표시 색상 - 관리자/마이페이지 공용
+  function gradeColor(grade) {
+    switch (grade) {
+      case '실버': return '#C0C0C0'
+      case '골드': return '#FFD700'
+      case '플래티넘': return '#b8a8e8'
+      default: return '#cd7f32'
+    }
+  }
+
+  // 비밀번호 정책 검증 (8자 이상 + 영문 소문자·숫자·특수문자 각 1개 이상) - 서버 정책과 동일 기준.
+  // 유효하면 null, 아니면 안내 문구를 반환한다 (회원가입/비밀번호 변경 공용).
+  function validatePasswordPolicy(password) {
+    if (password.length < 8) return '비밀번호는 8자 이상 입력해주세요.'
+    if (!/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)) {
+      return '비밀번호는 영문 소문자, 숫자, 특수문자를 모두 포함해야 합니다.'
+    }
+    return null
+  }
+
   // 위시리스트 수량
   const wishlistCount = computed(() => wishlist.value.length)
 
@@ -309,6 +333,7 @@ const jsonProducts = data.products.map(product => {
     showLoginModal,
     user, isLoggedIn, isAdmin,
     cartCount, cartTotal, wishlistCount, getDiscountedPrice,
+    shippingFree, cartTotalWithShipping, gradeColor, validatePasswordPolicy,
     login, logout,
     isInWishlist, toggleWishlist, loadWishlist,
     loadCart, addToCart, updateCartQty, removeFromCart, clearCart,

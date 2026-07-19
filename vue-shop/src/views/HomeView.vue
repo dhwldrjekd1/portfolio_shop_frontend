@@ -354,42 +354,6 @@ const features = [
 
 .section-link:hover { color: #f2f0eb; }
 
-.promo-label {
-  font-size: 11px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: #b8a898;
-  margin-bottom: 16px;
-}
-
-.promo-title {
-  font-family: 'Bebas Neue', sans-serif !important;
-  font-size: clamp(2rem, 4vw, 3rem) !important;
-  letter-spacing: 0.06em;
-  color: #f2f0eb !important;
-  margin-bottom: 12px;
-  font-weight: 400 !important;
-}
-
-.promo-desc {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 32px;
-}
-
-.promo-btn {
-  display: inline-block;
-  padding: 12px 40px;
-  background: #b8a898;
-  color: #0d0d0d;
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.promo-btn:hover { opacity: 0.85; }
-
 /* 슬라이딩 텍스트 배너 */
 .ticker-section {
   background-color: #0d0d0d; /* 배경은 화이트로 깔끔하게 */
@@ -477,7 +441,6 @@ const features = [
     text-align: center;
   }
   .hero-desc { max-width: 100%; }
-  .category-list { gap: 20px; }
   .section-header {
     flex-direction: column;
     align-items: flex-start;
