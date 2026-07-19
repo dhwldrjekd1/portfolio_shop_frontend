@@ -116,6 +116,8 @@ npm run build
 # dist/ → Spring Boot static 폴더에 복사 후 서버 재시작
 ```
 
+`npm run dev`로 프론트만 단독 실행하는 것은 API 연동 확인용으로는 쓸 수 없습니다 — `vite.config.js`에 백엔드로 가는 dev 프록시가 없어서 `/api/**` 요청이 그대로 실패합니다. API까지 포함해 확인하려면 위처럼 빌드해서 백엔드 static 폴더에 반영한 뒤 백엔드를 통해 접속해야 합니다. (자세한 로컬 셋업은 [백엔드 README](https://github.com/dhwldrjekd1/portfolio_shop_spring_boot#로컬-개발-환경-설정-처음-셋업-시) 참고)
+
 ---
 
 ## 트러블슈팅
