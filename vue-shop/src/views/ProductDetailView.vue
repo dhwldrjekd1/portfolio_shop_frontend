@@ -374,6 +374,8 @@ async function submitReview() {
       store.showToast("리뷰가 등록되었습니다.");
       newReview.value = { content: "", rating: 5 };
       await loadReviews();
+    } else {
+      store.showToast(data.message || "리뷰 등록에 실패했습니다.", "error");
     }
   } catch (e) {
     store.showToast("오류가 발생했습니다.", "error");
