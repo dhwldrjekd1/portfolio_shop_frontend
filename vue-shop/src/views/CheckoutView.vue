@@ -123,26 +123,6 @@
               </label>
             </div>
 
-            <!-- 카드 입력 -->
-            <div v-if="form.payment === 'card'" class="row g-3 mb-4">
-              <div class="col-12">
-                <label class="form-label-custom">카드 번호</label>
-                <input
-                  type="text"
-                  class="input-custom"
-                  placeholder="0000 0000 0000 0000"
-                />
-              </div>
-              <div class="col-6">
-                <label class="form-label-custom">유효 기간</label>
-                <input type="text" class="input-custom" placeholder="MM/YY" />
-              </div>
-              <div class="col-6">
-                <label class="form-label-custom">CVC</label>
-                <input type="text" class="input-custom" placeholder="000" />
-              </div>
-            </div>
-
             <div class="step-btn-row">
               <button class="step-prev-btn" @click="step = 1">
                 <i class="bi bi-arrow-left me-1"></i> 이전
@@ -261,7 +241,6 @@ const form = ref({
   memo: "",
   memoInput: "",
   payment: "toss",
-  cardNumber: "",
 });
 
 // ===== 결제 수단 목록 =====
@@ -402,7 +381,6 @@ async function placeOrder() {
         name: form.value.name,
         address: fullAddress,
         payment: form.value.payment,
-        cardNumber: form.value.cardNumber || null,
         amount: totalWithShipping.value,
         items,
       }),

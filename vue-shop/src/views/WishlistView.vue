@@ -58,7 +58,7 @@
                     v-for="n in 5"
                     :key="n"
                     class="bi"
-                    :class="n <= Math.round(item.rating) ? 'bi-star-fill' : 'bi-star'"
+                    :class="n <= Math.round(item.avgRating) ? 'bi-star-fill' : 'bi-star'"
                   ></i>
                 </div>
 
