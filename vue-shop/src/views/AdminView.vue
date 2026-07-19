@@ -848,6 +848,7 @@ async function deleteOrder(id) {
 
 // 등급 변경 (관리자)
 async function updateGrade(loginId, grade) {
+  if (!confirm(`"${loginId}"의 등급을 "${grade}"(으)로 변경하시겠습니까?`)) return;
   try {
     const res = await fetch(`/api/member/grade/${loginId}`, {
       method: "PUT",
@@ -1171,6 +1172,7 @@ async function loadOrders() {
 }
 
 async function updateStatus(id, status) {
+  if (!confirm(`주문 상태를 "${status}"(으)로 변경하시겠습니까?`)) return;
   try {
     const res = await fetch(`/api/order/${id}/status`, {
       method: "PUT",

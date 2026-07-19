@@ -64,9 +64,9 @@
 
                 <!-- 가격 -->
                 <div class="wish-price-wrap">
-                  <span class="wish-price">{{ item.price.toLocaleString() }}원</span>
-                  <span v-if="item.price < item.originalPrice" class="wish-price-origin">
-                    {{ item.originalPrice.toLocaleString() }}원
+                  <span class="wish-price">{{ store.getDiscountedPrice(item).toLocaleString() }}원</span>
+                  <span v-if="item.discountRate > 0" class="wish-price-origin">
+                    {{ item.price.toLocaleString() }}원
                   </span>
                 </div>
 
