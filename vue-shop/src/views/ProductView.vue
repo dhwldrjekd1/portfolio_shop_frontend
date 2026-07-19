@@ -206,8 +206,8 @@ const filteredProducts = computed(() => {
     );
   }
 
-  // 가격 필터 (최대 가격 이하)
-  list = list.filter((p) => (p.price || 0) <= filters.value.maxPrice);
+  // 가격 필터 (최대 가격 이하, 할인가 기준 - 화면에 표시되는 가격과 동일한 기준)
+  list = list.filter((p) => store.getDiscountedPrice(p) <= filters.value.maxPrice);
 
   // 평점 필터 (DB 리뷰 기반 avgRating 사용)
   if (filters.value.minRating > 0)
@@ -216,9 +216,9 @@ const filteredProducts = computed(() => {
   // 정렬
   switch (filters.value.sort) {
     case "price-asc": // 가격 낮은 순
-      return [...list].sort((a, b) => a.price - b.price);
+      return [...list].sort((a, b) => store.getDiscountedPrice(a) - store.getDiscountedPrice(b));
     case "price-desc": // 가격 높은 순
-      return [...list].sort((a, b) => b.price - a.price);
+      return [...list].sort((a, b) => store.getDiscountedPrice(b) - store.getDiscountedPrice(a));
     case "rating": // 평점 높은 순
       return [...list].sort((a, b) => (b.avgRating || 0) - (a.avgRating || 0));
     default:

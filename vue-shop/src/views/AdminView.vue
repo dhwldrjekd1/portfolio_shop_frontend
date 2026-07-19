@@ -906,8 +906,13 @@ async function loadSales() {
         const key = item.itemName || "상품ID: " + item.itemId;
         if (!salesMap[key]) salesMap[key] = { name: key, qty: 0, amount: 0 };
         salesMap[key].qty += item.quantity;
-        salesMap[key].amount +=
-          item.quantity * (order.amount / (order.orderItems?.length || 1));
+        // 주문 시점 단가(item.price)가 저장돼 있으면 그대로 사용. 컬럼 추가 이전에 생성된
+        // 과거 주문은 price가 없으므로 현재 상품가로 근사 계산한다(정확한 과거 단가는 아님).
+        const unitPrice =
+          item.price != null
+            ? item.price
+            : store.getDiscountedPrice(store.getProductById(item.itemId));
+        salesMap[key].amount += item.quantity * unitPrice;
       });
     });
     productSales.value = Object.values(salesMap).sort((a, b) => b.qty - a.qty);
