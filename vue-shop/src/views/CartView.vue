@@ -62,7 +62,7 @@
                 <!-- 수량 + 가격 -->
                 <div class="item-bottom">
                   <div class="qty-wrap">
-                    <button @click="store.updateCartQty(item.id, item.qty - 1)">
+                    <button :disabled="item.qty <= 1" @click="store.updateCartQty(item.id, item.qty - 1)">
                       <i class="bi bi-dash"></i>
                     </button>
                     <span>{{ item.qty }}</span>
@@ -367,6 +367,11 @@ onMounted(() => {
 
 .qty-wrap button:hover {
   background: rgba(255, 255, 255, 0.06);
+}
+
+.qty-wrap button:disabled {
+  opacity: 0.3;
+  cursor: default;
 }
 
 .qty-wrap span {
