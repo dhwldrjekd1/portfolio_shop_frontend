@@ -50,10 +50,10 @@ async function fetchData() {
     categories.value = data.categories
     banners.value    = data.banners
 
-    // DB 상품 + 리뷰 병렬 로드
+    // DB 상품 + 리뷰(평점 집계용, 비로그인도 조회 가능한 공개 엔드포인트) 병렬 로드
     const [itemRes, reviewRes] = await Promise.all([
       fetch('/api/item'),
-      fetch('/api/review/all')
+      fetch('/api/review/ratings')
     ])
     const items      = await itemRes.json()
     const allReviews = await reviewRes.json()

@@ -137,6 +137,8 @@ npm run build
 - **결제 페이지에 열릴 수 없는 죽은 '카드' 결제 UI 잔존** (2026-07-20) — `CheckoutView.vue`에 카드번호/유효기간/CVC 입력 블록이 `form.payment === 'card'`일 때만 보이도록 되어 있었는데, 실제 결제수단 목록엔 `'card'` 옵션 자체가 없어 절대 도달할 수 없었고, 입력창들도 `v-model` 바인딩이 없어 도달해도 동작하지 않았음. 블록과 미사용 `form.cardNumber` 필드를 함께 제거.
 - **중복 로직 통합** (2026-07-20) — 배송비 계산(`CartView.vue`/`CheckoutView.vue`), 등급 색상 `gradeColor()`(`AdminView.vue`/`MyPageView.vue`), 비밀번호 정책 검증(`AppHeader.vue`/`MyPageView.vue`)이 각각 두 화면에 동일 로직으로 중복 구현되어 있던 것을, 어제 통일한 `getDiscountedPrice()`와 같은 방식으로 `store/shop.js`의 `shippingFree`/`cartTotalWithShipping`/`gradeColor()`/`validatePasswordPolicy()` 공용 함수로 통합. 동작 변화 없음. (평균 별점 계산은 겉보기엔 비슷해 보였지만, 상품목록 캐시값과 리뷰 등록 직후 즉시 갱신되는 값이라 용도가 달라 통합하지 않음.) 미사용 CSS(`ProductCard.vue` `.card-review`, `HomeView.vue` 프로모션 섹션 잔재)도 함께 정리.
 - **장바구니 수량 "-" 버튼에 하한 가드 없음** (2026-07-21) — 수량 1일 때 "-"를 눌러도 아무 제약 없이 0을 요청해서, 백엔드가 수량 1 미만을 거부하도록 바뀌면서 클릭해도 조용히 무시되던(에러 안내 없이 아무 반응 없어 보이는) 문제. 수량이 1이면 "-" 버튼을 비활성화하도록 수정. (관련 백엔드 변경: `Cart` 엔티티에 수량 1 미만 거부 검증 추가)
+- **비로그인 방문자에게 상품이 전혀 안 보임 (심각)** (2026-07-21) — `store/shop.js`의 `fetchData()`가 관리자 전용으로 바뀐 `/api/review/all`을 그대로 호출해서, 비로그인 상태에서 받은 403 에러 응답(`{success:false}`)을 리뷰 배열인 것처럼 다루다 `allReviews.filter is not a function`으로 터져 상품 목록 전체가 비어 보이던 문제. `/api/review/ratings`(리뷰 원문 없이 평점만 반환하는 새 공개 엔드포인트)를 쓰도록 수정. (관련 백엔드 변경: `GET /api/review/ratings` 추가)
+- **홈 화면 서비스 안내(무료배송/반품/안전결제/고객지원) 섹션 삭제** (2026-07-21) — 요청에 따라 `HomeView.vue`의 `features-section` 및 관련 데이터/CSS 제거.
 
 ---
 
